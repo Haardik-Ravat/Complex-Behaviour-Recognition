@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:is_wear/is_wear.dart';
-
+import 'package:sensors/sensors.dart';
 import 'package:watch_connectivity/watch_connectivity.dart';
 import 'package:wear/wear.dart';
 
@@ -27,8 +27,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   late final WatchConnectivityBase _watch;
 
-  var _count = 0;
-
   var _supported = false;
   var _paired = false;
   var _reachable = false;
@@ -38,6 +36,11 @@ class _MyAppState extends State<MyApp> {
 
   Timer? timer;
 
+  AccelerometerEvent? _accelerometerEvent;
+  GyroscopeEvent? _gyroscopeEvent;
+  StreamSubscription<AccelerometerEvent>? _accelerometerStream;
+  StreamSubscription<GyroscopeEvent>? _gyroscopeStream;
+
   @override
   void initState() {
     super.initState();
@@ -45,6 +48,27 @@ class _MyAppState extends State<MyApp> {
     _watch.messageStream
         .listen((e) => setState(() => _log.add('Received message: $e')));
     initPlatformState();
+
+    _accelerometerStream =
+        accelerometerEvents.listen((AccelerometerEvent event) {
+      setState(() {
+        _accelerometerEvent = event;
+      });
+    });
+
+    _gyroscopeStream = gyroscopeEvents.listen((GyroscopeEvent event) {
+      setState(() {
+        _gyroscopeEvent = event;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _accelerometerStream?.cancel();
+    _gyroscopeStream?.cancel();
+    timer?.cancel();
+    super.dispose();
   }
 
   void initPlatformState() async {
@@ -58,41 +82,44 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     final home = Scaffold(
       body: Center(
-        child: SingleChildScrollView(
+        child: Padding(
           padding: const EdgeInsets.all(16),
           child: SafeArea(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Supported: $_supported'),
-                Text('Paired: $_paired'),
-                Text('Reachable: $_reachable'),
-                TextButton(
-                  onPressed: initPlatformState,
-                  child: const Text('Refresh'),
-                ),
-                const SizedBox(height: 8),
-                const Text('Send'),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextButton(
-                      onPressed: sendMessage,
-                      child: const Text('Message'),
-                    ),
-                  ],
-                ),
-                TextButton(
-                  onPressed: toggleBackgroundMessaging,
-                  child: Text(
-                    '${timer == null ? 'Start' : 'Stop'} background messaging',
-                    textAlign: TextAlign.center,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Supported: $_supported'),
+                  Text('Paired: $_paired'),
+                  Text('Reachable: $_reachable'),
+                  TextButton(
+                    onPressed: initPlatformState,
+                    child: const Text('Refresh'),
                   ),
-                ),
-                const SizedBox(width: 16),
-                const Text('Log'),
-                ..._log.reversed.map(Text.new),
-              ],
+                  const SizedBox(height: 8),
+                  const Text('Send'),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextButton(
+                        onPressed: toggleBackgroundMessaging,
+                        child: Text(
+                          '${timer == null ? 'Start' : 'Stop'} background messaging',
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(width: 16),
+                  const Text('Log'),
+                  ListView(
+                    shrinkWrap: true,
+                    reverse: true,
+                    children: _log.map((message) => Text(message)).toList(),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -109,19 +136,6 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  void sendMessage() {
-    final message = {'data': 'This is gyrodata'};
-    _watch.sendMessage(message);
-    setState(() => _log.add('Sent message: $message'));
-  }
-
-  void sendContext() {
-    _count++;
-    final context = {'data': _count};
-    _watch.updateApplicationContext(context);
-    setState(() => _log.add('Sent context: $context'));
-  }
-
   void toggleBackgroundMessaging() {
     if (timer == null) {
       timer = Timer.periodic(const Duration(seconds: 1), (_) => sendMessage());
@@ -130,5 +144,22 @@ class _MyAppState extends State<MyApp> {
       timer = null;
     }
     setState(() {});
+  }
+
+  void sendMessage() {
+    final message = {
+      'accelerometer': {
+        'x': _accelerometerEvent?.x,
+        'y': _accelerometerEvent?.y,
+        'z': _accelerometerEvent?.z,
+      },
+      'gyroscope': {
+        'x': _gyroscopeEvent?.x,
+        'y': _gyroscopeEvent?.y,
+        'z': _gyroscopeEvent?.z,
+      },
+    };
+    _watch.sendMessage(message);
+    setState(() => _log.add('Sent'));
   }
 }
