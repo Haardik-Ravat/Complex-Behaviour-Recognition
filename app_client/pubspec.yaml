@@ -46,6 +46,15 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  path_provider: ^2.0.15
+  open_file: ^3.3.1
+  csv: ^5.0.2
+  watch_connectivity: ^0.1.5
+  is_wear: ^0.0.1+1
+  wear:
+    git:
+      url: https://github.com/Rexios80/flutter_wear_plugin.git
+      ref: c5ca3ce5faf134602e93c1792f1fb0f8a8919465
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
