@@ -1,11 +1,11 @@
 {
-    "name": "app_client",
-    "short_name": "app_client",
+    "name": "wear_os",
+    "short_name": "wear_os",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "Complex Behaviour Recognition",
+    "description": "A new Flutter project.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
