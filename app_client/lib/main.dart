@@ -97,6 +97,10 @@ class _MyAppState extends State<MyApp> {
                 // const SizedBox(width: 16),
                 const Text('Received Data:'),
                 ..._log.reversed.map(Text.new),
+                // TextButton(
+                //   onPressed: initPlatformState,
+                //   child: const Text('Get CSV'),
+                // ),
               ],
             ),
           ),
@@ -137,25 +141,25 @@ class _MyAppState extends State<MyApp> {
 //     }
 //     setState(() {});
 //   }
-  void convertAndSaveToCSV(Map<String, dynamic> data) async {
-
-    List<List<dynamic>> csvData = [
-      // data.keys.toList(),
-      data.values.toList()
-    ];
-
-    String csvString = const ListToCsvConverter().convert(csvData);
-    Directory? directory = await getExternalStorageDirectory();
-
-    if (directory != null) {
-      File file = File('${directory.path}/file.csv');
-      await file.writeAsString(csvString);
-      OpenFile.open(file.path);
-    }
-    else{
-      print("Error saving");
-    }
-  }
+//   void convertAndSaveToCSV(Map<String, dynamic> data) async {
+//
+//     List<List<dynamic>> csvData = [
+//       // data.keys.toList(),
+//       data.values.toList()
+//     ];
+//
+//     String csvString = const ListToCsvConverter().convert(csvData);
+//     Directory? directory = await getExternalStorageDirectory();
+//
+//     if (directory != null) {
+//       File file = File('${directory.path}/file.csv');
+//       await file.writeAsString(csvString);
+//       OpenFile.open(file.path);
+//     }
+//     else{
+//       print("Error saving");
+//     }
+//   }
 
 
 
