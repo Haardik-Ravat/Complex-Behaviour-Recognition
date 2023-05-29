@@ -113,10 +113,18 @@ class _MyAppState extends State<MyApp> {
                   ),
                   const SizedBox(width: 16),
                   const Text('Log'),
-                  ListView(
-                    shrinkWrap: true,
-                    reverse: true,
-                    children: _log.map((message) => Text(message)).toList(),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Center(
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        child: ListView(
+                          shrinkWrap: true,
+                          children:
+                              _log.reversed.map((log) => Text(log)).toList(),
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -160,6 +168,6 @@ class _MyAppState extends State<MyApp> {
       },
     };
     _watch.sendMessage(message);
-    setState(() => _log.add('Sent'));
+    // setState(() => _log.add('Sent message: $message'));
   }
 }

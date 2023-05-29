@@ -1,6 +1,6 @@
-# app_client
+# wear_os
 
-Complex Behaviour Recognition
+A new Flutter project.
 
 ## Getting Started
 
