@@ -6,6 +6,10 @@ import 'package:is_wear/is_wear.dart';
 import 'package:sensors/sensors.dart';
 import 'package:watch_connectivity/watch_connectivity.dart';
 import 'package:wear/wear.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:csv/csv.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:path_provider/path_provider.dart';
 
 late final bool isWear;
 
@@ -33,7 +37,7 @@ class _MyAppState extends State<MyApp> {
   var _context = <String, dynamic>{};
   var _receivedContexts = <Map<String, dynamic>>[];
   final _log = <String>[];
-
+  List datalist = [];
   Timer? timer;
 
   AccelerometerEvent? _accelerometerEvent;
@@ -78,6 +82,30 @@ class _MyAppState extends State<MyApp> {
     setState(() {});
   }
 
+  Future<void> _generateCsvFile() async {
+    // Request storage permission
+    PermissionStatus status = await Permission.storage.request();
+    print(status.isGranted);
+    if (!status.isGranted) {
+      print('Permission denied');
+      Map<Permission, PermissionStatus> statuses = await [
+        Permission.storage,
+      ].request();
+      print(statuses[Permission.storage]);
+    }
+
+    final csvData = datalist.map((list) => list.join(',')).join('\n');
+    final csvString = 'x,y,z\n' + csvData;
+
+    final dir = await getExternalStorageDirectory();
+    final filePath = '${dir?.path}/data.csv';
+
+    final file = File(filePath);
+    await file.writeAsString(csvString);
+
+    print('CSV file saved in external storage: $dir');
+  }
+
   @override
   Widget build(BuildContext context) {
     final home = Scaffold(
@@ -108,6 +136,10 @@ class _MyAppState extends State<MyApp> {
                           '${timer == null ? 'Start' : 'Stop'} background messaging',
                           textAlign: TextAlign.center,
                         ),
+                      ),
+                      TextButton(
+                        onPressed: _generateCsvFile,
+                        child: Text('Generate CSV'),
                       ),
                     ],
                   ),
@@ -168,6 +200,15 @@ class _MyAppState extends State<MyApp> {
       },
     };
     _watch.sendMessage(message);
-    // setState(() => _log.add('Sent message: $message'));
+    List l = [
+      _accelerometerEvent?.x,
+      _accelerometerEvent?.y,
+      _accelerometerEvent?.z,
+      _gyroscopeEvent?.x,
+      _gyroscopeEvent?.y,
+      _gyroscopeEvent?.z
+    ];
+    datalist.add(l);
+    setState(() => _log.add('Sent message: $message'));
   }
 }
