@@ -114,13 +114,26 @@ class _MyAppState extends State<MyApp> {
     final csvData = datalist.map((list) => list.join(',')).join('\n');
     final csvString = 'x,y,z\n' + csvData;
 
-    final dir = await getExternalStorageDirectory();
-    final filePath = '${dir?.path}/data.csv';
+    bool dirDownloadExists = true;
+    var directory;
+    if (Platform.isIOS) {
+      directory = await getDownloadsDirectory();
+    } else {
+      directory = "/storage/emulated/0/Download/";
+
+      dirDownloadExists = await Directory(directory).exists();
+      if (dirDownloadExists) {
+        directory = "/storage/emulated/0/Download/";
+      } else {
+        directory = "/storage/emulated/0/Downloads/";
+      }
+    }
+    final filePath = '${directory}/data.csv';
 
     final file = File(filePath);
     await file.writeAsString(csvString);
 
-    print('CSV file saved in external storage: $dir');
+    print('CSV file saved in external storage: $directory');
   }
 
   @override
