@@ -49,8 +49,25 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     _watch = WatchConnectivity();
-    _watch.messageStream
-        .listen((e) => setState(() => _log.add('Received message: $e')));
+    _watch.messageStream.listen((e) {
+      setState(() {
+        _log.add('Received message: $e');
+        final accelerometerData = e['accelerometer'];
+        final gyroscopeData = e['gyroscope'];
+        if (accelerometerData != null && gyroscopeData != null) {
+          final List<double> entry = [
+            // DateTime.now().millisecondsSinceEpoch.toDouble(),
+            accelerometerData['x'] ?? 0.0,
+            accelerometerData['y'] ?? 0.0,
+            accelerometerData['z'] ?? 0.0,
+            gyroscopeData['x'] ?? 0.0,
+            gyroscopeData['y'] ?? 0.0,
+            gyroscopeData['z'] ?? 0.0,
+          ];
+          datalist.add(entry);
+        }
+      });
+    });
     initPlatformState();
 
     _accelerometerStream =
