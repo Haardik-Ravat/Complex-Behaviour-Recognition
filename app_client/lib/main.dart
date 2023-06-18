@@ -10,6 +10,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:csv/csv.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:wear_os/graphs.dart';
 
 late final bool isWear;
 
@@ -170,6 +171,10 @@ class _MyAppState extends State<MyApp> {
                       TextButton(
                         onPressed: _generateCsvFile,
                         child: Text('Generate CSV'),
+                      ),
+                      TextButton(
+                        onPressed:  () {Navigator.push(context,MaterialPageRoute(builder: (context) => const Graphs()));},
+                        child: Text('Graphs'),
                       ),
                     ],
                   ),
