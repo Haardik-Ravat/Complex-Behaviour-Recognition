@@ -12,6 +12,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:wear_os/graphs.dart';
 
+
 late final bool isWear;
 
 void main() async {
@@ -19,7 +20,11 @@ void main() async {
 
   isWear = (await IsWear().check()) ?? false;
 
-  runApp(const MyApp());
+  runApp(
+      const MaterialApp(
+        home: MyApp(),
+      ),
+      );
 }
 
 class MyApp extends StatefulWidget {
@@ -170,13 +175,16 @@ class _MyAppState extends State<MyApp> {
                       ),
                       TextButton(
                         onPressed: _generateCsvFile,
-                        child: Text('Generate CSV'),
+                        child: const Text('Generate CSV'),
                       ),
-                      TextButton(
-                        onPressed:  () {Navigator.push(context,MaterialPageRoute(builder: (context) => const Graphs()));},
-                        child: Text('Graphs'),
-                      ),
+
                     ],
+                  ),
+                  TextButton(
+                    onPressed:  () {
+                      Navigator.push(context,MaterialPageRoute(builder: (context) => Graphs(datalist: datalist,)));
+                    },
+                    child: const Text('Graphs'),
                   ),
                   const SizedBox(width: 16),
                   const Text('Log'),
