@@ -1,38 +1,24 @@
 import 'dart:async';
-import 'dart:ffi';
+
 import 'dart:io';
-// import 'package:syncfusion_flutter_charts/charts.t';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 import 'globals.dart' as globals;
 
-
-
 class Graphs extends StatefulWidget {
-
-
   const Graphs({Key? key}) : super(key: key);
 
   @override
   State<Graphs> createState() => _GraphsState();
 }
 
-
-
-
-
 class _GraphsState extends State<Graphs> {
   @override
   Widget build(BuildContext context) {
-    print(globals.datalist);
-    print(globals.times);
+    // print(globals.datalist);
+    // print(globals.times);
 
-    List<_SensorData> data = [
-      _SensorData('1', 35, 40, 27),
-      _SensorData('2', 36, 41, 28),
-      _SensorData('3', 37, 42, 29),
-      _SensorData('4', 38, 43, 30),
-      _SensorData('5', 39, 44, 31),
-    ];
+    List<_SensorData> data = [];
 
     return Scaffold(
       appBar: AppBar(
@@ -47,38 +33,136 @@ class _GraphsState extends State<Graphs> {
                 final List<dynamic> updatedData = snapshot.data!;
                 print(updatedData);
                 print(globals.times);
+                List<_SensorData> data = [
+                  _SensorData(
+                      (globals.times[globals.times.length - 5] -
+                              globals.times[0])
+                          .toString(),
+                      updatedData[updatedData.length - 5][0],
+                      updatedData[updatedData.length - 5][1],
+                      updatedData[updatedData.length - 5][2]),
+                  _SensorData(
+                      (globals.times[globals.times.length - 4] -
+                              globals.times[0])
+                          .toString(),
+                      updatedData[updatedData.length - 4][0],
+                      updatedData[updatedData.length - 4][1],
+                      updatedData[updatedData.length - 4][2]),
+                  _SensorData(
+                      (globals.times[globals.times.length - 3] -
+                              globals.times[0])
+                          .toString(),
+                      updatedData[updatedData.length - 3][0],
+                      updatedData[updatedData.length - 3][1],
+                      updatedData[updatedData.length - 3][2]),
+                  _SensorData(
+                      (globals.times[globals.times.length - 2] -
+                              globals.times[0])
+                          .toString(),
+                      updatedData[updatedData.length - 2][0],
+                      updatedData[updatedData.length - 2][1],
+                      updatedData[updatedData.length - 2][2]),
+                  _SensorData(
+                      (globals.times[globals.times.length - 1] -
+                              globals.times[0])
+                          .toString(),
+                      updatedData[updatedData.length - 1][0],
+                      updatedData[updatedData.length - 1][1],
+                      updatedData[updatedData.length - 1][2])
+                ];
+                List<_SensorData> data1 = [
+                  _SensorData(
+                      globals.times[globals.times.length - 5].toString(),
+                      updatedData[updatedData.length - 5][3],
+                      updatedData[updatedData.length - 5][4],
+                      updatedData[updatedData.length - 5][5]),
+                  _SensorData(
+                      globals.times[globals.times.length - 4].toString(),
+                      updatedData[updatedData.length - 4][3],
+                      updatedData[updatedData.length - 4][4],
+                      updatedData[updatedData.length - 4][5]),
+                  _SensorData(
+                      globals.times[globals.times.length - 3].toString(),
+                      updatedData[updatedData.length - 3][3],
+                      updatedData[updatedData.length - 3][4],
+                      updatedData[updatedData.length - 3][5]),
+                  _SensorData(
+                      globals.times[globals.times.length - 2].toString(),
+                      updatedData[updatedData.length - 2][3],
+                      updatedData[updatedData.length - 2][4],
+                      updatedData[updatedData.length - 2][5]),
+                  _SensorData(
+                      globals.times[globals.times.length - 1].toString(),
+                      updatedData[updatedData.length - 1][3],
+                      updatedData[updatedData.length - 1][4],
+                      updatedData[updatedData.length - 1][5])
+                ];
 
-                // SfCartesianChart(
-                //   primaryXAxis: CategoryAxis(),
-                //   title: ChartTitle(text: 'Accelerometer Data Analysis'),
-                //   legend: Legend(isVisible: true),
-                //   tooltipBehavior: TooltipBehavior(enable: true),
-                //   series: <ChartSeries<_SensorData, String>>[
-                //     LineSeries<_SensorData, String>(
-                //       dataSource: data,
-                //       xValueMapper: (_SensorData data, _) => data.time,
-                //       yValueMapper: (_SensorData data, _) => data.x,
-                //       name: 'Accelerometer-X',
-                //       dataLabelSettings: DataLabelSettings(isVisible: true),
-                //     ),
-                //     LineSeries<_SensorData, String>(
-                //       dataSource: data,
-                //       xValueMapper: (_SensorData data, _) => data.time,
-                //       yValueMapper: (_SensorData data, _) => data.y,
-                //       name: 'Accelerometer-Y',
-                //       dataLabelSettings: DataLabelSettings(isVisible: true),
-                //     ),
-                //     LineSeries<_SensorData, String>(
-                //       dataSource: data,
-                //       xValueMapper: (_SensorData data, _) => data.time,
-                //       yValueMapper: (_SensorData data, _) => data.z,
-                //       name: 'Accelerometer-Z',
-                //       dataLabelSettings: DataLabelSettings(isVisible: true),
-                //     ),
-                //   ],
-                // ),
+                return SingleChildScrollView(
+                    child: Column(
+                  children: [
+                    SfCartesianChart(
+                      primaryXAxis: CategoryAxis(),
+                      title: ChartTitle(text: 'Accelerometer Data Analysis'),
+                      legend: Legend(isVisible: true),
+                      tooltipBehavior: TooltipBehavior(enable: true),
+                      series: <ChartSeries<_SensorData, String>>[
+                        LineSeries<_SensorData, String>(
+                          dataSource: data,
+                          xValueMapper: (_SensorData data, _) => data.time,
+                          yValueMapper: (_SensorData data, _) => data.x,
+                          name: 'Accelerometer-X',
+                          dataLabelSettings: DataLabelSettings(isVisible: true),
+                        ),
+                        LineSeries<_SensorData, String>(
+                          dataSource: data,
+                          xValueMapper: (_SensorData data, _) => data.time,
+                          yValueMapper: (_SensorData data, _) => data.y,
+                          name: 'Accelerometer-Y',
+                          dataLabelSettings: DataLabelSettings(isVisible: true),
+                        ),
+                        LineSeries<_SensorData, String>(
+                          dataSource: data,
+                          xValueMapper: (_SensorData data, _) => data.time,
+                          yValueMapper: (_SensorData data, _) => data.z,
+                          name: 'Accelerometer-Z',
+                          dataLabelSettings: DataLabelSettings(isVisible: true),
+                        ),
+                      ],
+                    ),
+                    SfCartesianChart(
+                      primaryXAxis: CategoryAxis(),
+                      title: ChartTitle(text: 'Gyroscopic Data Analysis'),
+                      legend: Legend(isVisible: true),
+                      tooltipBehavior: TooltipBehavior(enable: true),
+                      series: <ChartSeries<_SensorData, String>>[
+                        LineSeries<_SensorData, String>(
+                          dataSource: data1,
+                          xValueMapper: (_SensorData data1, _) => data1.time,
+                          yValueMapper: (_SensorData data1, _) => data1.x,
+                          name: 'Gyroscopic-X',
+                          dataLabelSettings: DataLabelSettings(isVisible: true),
+                        ),
+                        LineSeries<_SensorData, String>(
+                          dataSource: data1,
+                          xValueMapper: (_SensorData data1, _) => data1.time,
+                          yValueMapper: (_SensorData data1, _) => data1.y,
+                          name: 'Gyroscopic-Y',
+                          dataLabelSettings: DataLabelSettings(isVisible: true),
+                        ),
+                        LineSeries<_SensorData, String>(
+                          dataSource: data1,
+                          xValueMapper: (_SensorData data1, _) => data1.time,
+                          yValueMapper: (_SensorData data1, _) => data1.z,
+                          name: 'Gyroscopic-Z',
+                          dataLabelSettings: DataLabelSettings(isVisible: true),
+                        ),
+                      ],
+                    ),
+                  ],
+                ));
 
-                return Container();
+                // return Container();
               } else if (snapshot.hasError) {
                 return Text('Err: ${snapshot.error}');
               } else {
@@ -86,16 +170,11 @@ class _GraphsState extends State<Graphs> {
               }
             },
           ),
-
-
         ],
       ),
     );
   }
 }
-
-
-
 
 class _SensorData {
   final String time;

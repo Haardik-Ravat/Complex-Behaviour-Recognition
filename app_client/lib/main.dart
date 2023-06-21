@@ -21,10 +21,10 @@ void main() async {
   isWear = (await IsWear().check()) ?? false;
 
   runApp(
-      const MaterialApp(
-        home: MyApp(),
-      ),
-      );
+    const MaterialApp(
+      home: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -57,6 +57,17 @@ class _MyAppState extends State<MyApp> {
     _watch = WatchConnectivity();
     _watch.messageStream.listen((e) {
       setState(() {
+        List l = [
+          e['accelerometer']['x'],
+          e['accelerometer']['y'],
+          e['accelerometer']['z'],
+          e['gyroscope']['x'],
+          e['gyroscope']['y'],
+          e['gyroscope']['z']
+        ];
+        globals.datalist.add(l);
+        globals.updateDatalist(l);
+        globals.times.add(DateTime.now().millisecondsSinceEpoch);
         _log.add('Received message: $e');
         final accelerometerData = e['accelerometer'];
         final gyroscopeData = e['gyroscope'];
@@ -177,12 +188,12 @@ class _MyAppState extends State<MyApp> {
                         onPressed: _generateCsvFile,
                         child: const Text('Generate CSV'),
                       ),
-
                     ],
                   ),
                   TextButton(
-                    onPressed:  () {
-                      Navigator.push(context,MaterialPageRoute(builder: (context) => Graphs()));
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Graphs()));
                     },
                     child: const Text('Graphs'),
                   ),
@@ -251,9 +262,9 @@ class _MyAppState extends State<MyApp> {
       _gyroscopeEvent?.y,
       _gyroscopeEvent?.z
     ];
-    globals.datalist.add(l);
-    globals.updateDatalist(l);
-    globals.times.add(DateTime.now().millisecondsSinceEpoch);
+    // globals.datalist.add(l);
+    // globals.updateDatalist(l);
+    // globals.times.add(DateTime.now().millisecondsSinceEpoch);
     _watch.sendMessage(message);
     setState(() => _log.add('Sent message: $message'));
   }
