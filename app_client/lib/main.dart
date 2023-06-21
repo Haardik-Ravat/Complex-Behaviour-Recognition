@@ -11,7 +11,7 @@ import 'package:csv/csv.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:wear_os/graphs.dart';
-
+import 'globals.dart' as globals;
 
 late final bool isWear;
 
@@ -43,7 +43,7 @@ class _MyAppState extends State<MyApp> {
   var _context = <String, dynamic>{};
   var _receivedContexts = <Map<String, dynamic>>[];
   final _log = <String>[];
-  List datalist = [];
+  // List globals.datalist = [];
   Timer? timer;
 
   AccelerometerEvent? _accelerometerEvent;
@@ -70,7 +70,7 @@ class _MyAppState extends State<MyApp> {
             gyroscopeData['y'] ?? 0.0,
             gyroscopeData['z'] ?? 0.0,
           ];
-          datalist.add(entry);
+          globals.datalist.add(entry);
         }
       });
     });
@@ -117,7 +117,7 @@ class _MyAppState extends State<MyApp> {
       print(statuses[Permission.storage]);
     }
 
-    final csvData = datalist.map((list) => list.join(',')).join('\n');
+    final csvData = globals.datalist.map((list) => list.join(',')).join('\n');
     final csvString = 'x,y,z\n' + csvData;
 
     bool dirDownloadExists = true;
@@ -182,7 +182,7 @@ class _MyAppState extends State<MyApp> {
                   ),
                   TextButton(
                     onPressed:  () {
-                      Navigator.push(context,MaterialPageRoute(builder: (context) => Graphs(datalist: datalist,)));
+                      Navigator.push(context,MaterialPageRoute(builder: (context) => Graphs()));
                     },
                     child: const Text('Graphs'),
                   ),
@@ -242,7 +242,7 @@ class _MyAppState extends State<MyApp> {
         'z': _gyroscopeEvent?.z,
       },
     };
-    _watch.sendMessage(message);
+
     List l = [
       _accelerometerEvent?.x,
       _accelerometerEvent?.y,
@@ -251,7 +251,10 @@ class _MyAppState extends State<MyApp> {
       _gyroscopeEvent?.y,
       _gyroscopeEvent?.z
     ];
-    datalist.add(l);
+    globals.datalist.add(l);
+    globals.updateDatalist(l);
+    globals.times.add(DateTime.now().millisecondsSinceEpoch);
+    _watch.sendMessage(message);
     setState(() => _log.add('Sent message: $message'));
   }
 }
