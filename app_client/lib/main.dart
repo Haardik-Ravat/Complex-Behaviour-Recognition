@@ -11,6 +11,7 @@ import 'package:csv/csv.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:wear_os/graphs.dart';
+import 'package:wear_os/pongsense.dart';
 import 'globals.dart' as globals;
 
 late final bool isWear;
@@ -198,6 +199,16 @@ class _MyAppState extends State<MyApp> {
                     child: const Text('Graphs'),
                   ),
                   const SizedBox(width: 16),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => PongSense()));
+
+                    },
+                    child: const Text('Esense'),
+                  ),
+                  const SizedBox(width: 16),
+
                   const Text('Log'),
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
