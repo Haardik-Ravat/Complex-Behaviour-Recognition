@@ -7,9 +7,7 @@ import 'package:sensors/sensors.dart';
 import 'package:watch_connectivity/watch_connectivity.dart';
 import 'package:wear/wear.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:csv/csv.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:wear_os/graphs.dart';
 import 'package:wear_os/pongsense.dart';
 import 'globals.dart' as globals;
@@ -203,12 +201,10 @@ class _MyAppState extends State<MyApp> {
                     onPressed: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => PongSense()));
-
                     },
                     child: const Text('Esense'),
                   ),
                   const SizedBox(width: 16),
-
                   const Text('Log'),
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,

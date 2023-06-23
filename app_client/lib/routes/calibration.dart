@@ -1,8 +1,12 @@
 import 'dart:collection';
+import 'dart:async';
+import 'dart:io';
 
+import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:esense_flutter/esense.dart';
 import 'package:flame/components.dart';
-import 'package:flutter/material.dart';
 import 'package:wear_os/esense/device.dart';
 import 'package:wear_os/globals/connection.dart' as g;
 import 'package:ditredi/ditredi.dart';
@@ -39,6 +43,7 @@ class CalibrationScreenState extends State<CalibrationScreen> {
 
   Vector3? _calibrateLeft = g.angler.calibrateLeft;
   Vector3? _calibrateRight = g.angler.calibrateRight;
+  List<dynamic> datalistesense = [];
 
   final _controllerFront = DiTreDiController(
     rotationX: -90,
@@ -52,6 +57,42 @@ class CalibrationScreenState extends State<CalibrationScreen> {
   Closer? _sensorCallbackCloser;
   Closer? _stateCallbackCloser;
   Closer? _angleChangedCallbackCloser;
+
+  Future<void> _generateCsvFile() async {
+    PermissionStatus status = await Permission.storage.request();
+    print(status.isGranted);
+    if (!status.isGranted) {
+      print('Permission denied');
+      Map<Permission, PermissionStatus> statuses = await [
+        Permission.storage,
+      ].request();
+      print(statuses[Permission.storage]);
+    }
+
+    final csvData = datalistesense.map((list) => list.join(',')).join('\n');
+    final csvString = 'x,y,z\n' + csvData;
+
+    bool dirDownloadExists = true;
+    var directory;
+    if (Platform.isIOS) {
+      directory = await getDownloadsDirectory();
+    } else {
+      directory = "/storage/emulated/0/Download/";
+
+      dirDownloadExists = await Directory(directory).exists();
+      if (dirDownloadExists) {
+        directory = "/storage/emulated/0/Download/";
+      } else {
+        directory = "/storage/emulated/0/Downloads/";
+      }
+    }
+    final filePath = '${directory}/dataensense.csv';
+
+    final file = File(filePath);
+    await file.writeAsString(csvString);
+
+    print('CSV file saved in external storage: $directory');
+  }
 
   List<Point3D> _generateAccelPoints() {
     final len = _lastAccels.length;
@@ -147,13 +188,18 @@ class CalibrationScreenState extends State<CalibrationScreen> {
       final accelScale = g.device.deviceConfig?.accRange?.sensitivityFactor;
       if (gyroScale == null || accelScale == null) return;
 
-      print("1");
-      print(_lastAccels);
-      print(_lastGyros);
+      List l = [
+        event.accel?[0],
+        event.accel?[1],
+        event.accel?[2],
+        event.gyro?[0],
+        event.gyro?[1],
+        event.gyro?[2]
+      ];
+      datalistesense.add(l);
 
-print("2");
-      print(event.accel);
-      print(event.gyro);
+      // print(event.accel);
+      // print(event.gyro);
 
       var gyro = toVec3(event.gyro);
       var accel = toVec3(event.accel);
@@ -191,10 +237,9 @@ print("2");
       body: Column(
         children: [
           TextButton(
-            onPressed: (){},
+            onPressed: _generateCsvFile,
             child: const Text('Generate CSV'),
           ),
-
           Container(
             height: 200,
             color: Colors.blueGrey,
