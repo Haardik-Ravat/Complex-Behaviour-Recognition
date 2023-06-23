@@ -2,9 +2,9 @@ name: Flutter-CI
 
 on:
   push:
-    branches: [master]
+    branches: [main]
   pull_request:
-    branches: [master]
+    branches: [main]
 defaults:
   run:
     working-directory: app_client
@@ -19,7 +19,6 @@ jobs:
         with:
           java-version: "12.x"
       - uses: subosito/flutter-action@v1.3.2
-      - run: cp .env.example .env
       - name: Install Deps
         run: flutter pub get
       - name: Build android
