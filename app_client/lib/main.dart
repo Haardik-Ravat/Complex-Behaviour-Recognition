@@ -205,7 +205,7 @@ class _MyAppState extends State<MyApp> {
                           MaterialPageRoute(builder: (context) => PongSense()));
 
                     },
-                    child: const Text('Esense'),
+                    child: const Text('Esense Directive'),
                   ),
                   const SizedBox(width: 16),
 
