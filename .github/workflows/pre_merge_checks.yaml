@@ -1,0 +1,50 @@
+name: Pre-Merge Checks
+
+on:
+  pull_request:
+    types:
+      - synchronize
+      - opened
+      - reopened
+      - ready_for_review
+
+jobs:
+  pre_merge_checks:
+    name: Pre-Merge Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.10.2"
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run static analysis (dart analyze)
+        run: flutter analyze
+
+      - name: Run unit tests
+        run: flutter test
+
+      - name: Build and test on device/emulator
+        run: flutter build apk && flutter drive --target=test_driver/app.dart
+
+      - name: Lint code (dart format)
+        run: flutter format --set-exit-if-changed .
+
+      - name: Check for code formatting changes
+        run: git diff --exit-code
+
+      - name: Check for uncommitted changes
+        run: git diff --quiet --exit-code
+
+      - name: Check for merge conflicts
+        run: git merge-base --is-ancestor HEAD origin/main
+
+      - name: Success message
+        run: echo "All pre-merge checks passed. Ready to merge!"
