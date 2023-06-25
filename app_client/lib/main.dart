@@ -9,6 +9,7 @@ import 'package:wear/wear.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:wear_os/graphs.dart';
+import 'package:wear_os/homescreen.dart';
 import 'package:wear_os/pongsense.dart';
 import 'globals.dart' as globals;
 
@@ -21,7 +22,7 @@ void main() async {
 
   runApp(
     const MaterialApp(
-      home: MyApp(),
+      home: HomeScreen(),
     ),
   );
 }

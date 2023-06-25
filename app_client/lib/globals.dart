@@ -1,6 +1,10 @@
 library globals;
 import 'dart:async';
 
+String currentActivity="";
+int actindex=0;
+
+
 List<dynamic> times = [];
 List<dynamic> datalist = [];
 

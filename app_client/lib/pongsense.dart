@@ -91,10 +91,10 @@ class NavigationState extends State<Navigation> {
     }
 
     // calibrate is disabled when not connected
-    if (tabIndex != 0 && _deviceState != DeviceState.initialized) {
-      ScaffoldMessenger.of(context).showSnackBar(connectSnackBar);
-      return;
-    }
+    // if (tabIndex != 0 && _deviceState != DeviceState.initialized) {
+    //   ScaffoldMessenger.of(context).showSnackBar(connectSnackBar);
+    //   return;
+    // }
 
     setState(() {
       _currentTabIndex = tabIndex;
@@ -127,9 +127,9 @@ class NavigationState extends State<Navigation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(routeTitle),
-      ),
+      // appBar: AppBar(
+      //   title: Text(routeTitle),
+      // ),
       body: route,
       bottomNavigationBar: _bottomNavigationBar(),
     );
