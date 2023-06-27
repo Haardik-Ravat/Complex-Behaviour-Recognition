@@ -27,6 +27,18 @@ void main() async {
   );
 }
 
+const YesIcon = Icon(
+  Icons.check,
+  color: Colors.green,
+);
+
+const NoIcon = Icon(
+  Icons.close,
+  color: Colors.red,
+);
+
+
+
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -51,6 +63,10 @@ class _MyAppState extends State<MyApp> {
   StreamSubscription<AccelerometerEvent>? _accelerometerStream;
   StreamSubscription<GyroscopeEvent>? _gyroscopeStream;
 
+
+
+
+
   @override
   void initState() {
     super.initState();
@@ -63,7 +79,8 @@ class _MyAppState extends State<MyApp> {
           e['accelerometer']['z'],
           e['gyroscope']['x'],
           e['gyroscope']['y'],
-          e['gyroscope']['z']
+          e['gyroscope']['z'],
+          globals.currentActivity,
         ];
         globals.datalist.add(l);
         globals.updateDatalist(l);
@@ -150,62 +167,106 @@ class _MyAppState extends State<MyApp> {
     final file = File(filePath);
     await file.writeAsString(csvString);
 
+
+    const snackBar = SnackBar(
+      content: Text('CSV file saved in external storage'),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+
     print('CSV file saved in external storage: $directory');
   }
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
     final home = Scaffold(
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
+      body:
+         Padding(
+          padding: const EdgeInsets.all(32),
           child: SafeArea(
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text('Supported: $_supported'),
-                  Text('Paired: $_paired'),
-                  Text('Reachable: $_reachable'),
+                  const ListTile(
+                    title: Text(
+                      'Connection State',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  ListTile(
+                    leading: _supported
+                        ? YesIcon
+
+                        : NoIcon,
+                    title: const Text('Supported'),
+                  ),
+                  ListTile(
+                    leading: _paired
+                        ? YesIcon
+
+                        : NoIcon,
+                    title: const Text('Paired'),
+                  ),ListTile(
+                    leading: _reachable
+                        ? YesIcon
+
+                        : NoIcon,
+                    title: const Text('Reachable'),
+                  ),
+                  // Text('Supported: $_supported'),
+                  // Text('Paired: $_paired'),
+                  // Text('Reachable: $_reachable'),
                   TextButton(
                     onPressed: initPlatformState,
                     child: const Text('Refresh'),
                   ),
-                  const SizedBox(height: 8),
-                  const Text('Send'),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      TextButton(
-                        onPressed: toggleBackgroundMessaging,
-                        child: Text(
-                          '${timer == null ? 'Start' : 'Stop'} background messaging',
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: _generateCsvFile,
-                        child: const Text('Generate CSV'),
-                      ),
-                    ],
+                  const SizedBox(height: 10),
+             ElevatedButton(
+              onPressed: _generateCsvFile,
+              child: const Text('Generate CSV'),
+            ),
+            const SizedBox(height: 10),
+                   ElevatedButton(
+                    onPressed: toggleBackgroundMessaging,
+                    child: Text(
+                      '${timer == null ? 'Start' : 'Stop'} background messaging',
+                      textAlign: TextAlign.center,
+                    ),
                   ),
+                  // TextButton(
+                  //   onPressed: () {
+                  //     Navigator.push(context,
+                  //         MaterialPageRoute(builder: (context) => Graphs()));
+                  //   },
+                  //   child: const Text('Graphs'),
+                  // ),
+                  // const SizedBox(width: 16),
+                  // TextButton(
+                  //   onPressed: () {
+                  //     Navigator.push(context,
+                  //         MaterialPageRoute(builder: (context) => PongSense()));
+                  //   },
+                  //   child: const Text('Esense'),
+                  // ),
+                  const SizedBox(width: 30),
                   TextButton(
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Graphs()));
+                    onPressed: (){
+                      setState(() {
+                        _log.clear();
+                      });
+
                     },
-                    child: const Text('Graphs'),
+                    child: const Text('Clear Log'),
                   ),
-                  const SizedBox(width: 16),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => PongSense()));
-                    },
-                    child: const Text('Esense'),
-                  ),
-                  const SizedBox(width: 16),
+                  const SizedBox(width: 15),
                   const Text('Log'),
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
@@ -225,7 +286,7 @@ class _MyAppState extends State<MyApp> {
             ),
           ),
         ),
-      ),
+
     );
 
     return MaterialApp(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wear_os/graphs.dart';
 import 'package:wear_os/main.dart';
 import 'package:wear_os/pongsense.dart';
 import 'package:wear_os/recog.dart';
@@ -14,29 +15,35 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 3,
+        length: 4,
         child: Scaffold(
       appBar: AppBar(
           title: const Text('Complex Behaviour Recognition'),
         bottom: const TabBar(
           tabs: [
             Tab(
-              text: 'SmartWatch ',
+              text: 'Data',
+            ),
+            Tab(
+              text: 'Watch',
             ),
             Tab(
               text: 'Esense',
             ),
             Tab(
-              text: 'Data',
+              text: 'Graphs',
             ),
+
           ],
         ),
       ),
       body: const TabBarView(
         children: <Widget>[
+          Recog(),
          MyApp(),
           PongSense(),
-Recog()
+Graphs(),
+
 
         ],
       )

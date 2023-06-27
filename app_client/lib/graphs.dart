@@ -185,8 +185,12 @@ class _GraphsState extends State<Graphs> {
                 // return Container();
               } else if (snapshot.hasError) {
                 return Text('Err: ${snapshot.error}');
-              } else {
-                return const CircularProgressIndicator();
+              }
+              else if(!snapshot.hasData){
+              return Text('No data found');
+              }
+              else {
+                return Center( child : CircularProgressIndicator());
               }
             },
           ),

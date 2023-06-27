@@ -13,6 +13,7 @@ import 'package:ditredi/ditredi.dart';
 import 'package:wear_os/math/remap.dart';
 import 'package:wear_os/math/vector.dart';
 import 'package:wear_os/util/callback.dart';
+import 'package:wear_os/globals.dart' as globals;
 
 class CalibrationScreen extends StatefulWidget {
   const CalibrationScreen({super.key});
@@ -194,7 +195,8 @@ class CalibrationScreenState extends State<CalibrationScreen> {
         event.accel?[2],
         event.gyro?[0],
         event.gyro?[1],
-        event.gyro?[2]
+        event.gyro?[2],
+        globals.currentActivity,
       ];
       datalistesense.add(l);
 
@@ -236,10 +238,7 @@ class CalibrationScreenState extends State<CalibrationScreen> {
     return Scaffold(
       body: Column(
         children: [
-          TextButton(
-            onPressed: _generateCsvFile,
-            child: const Text('Generate CSV'),
-          ),
+
           Container(
             height: 200,
             color: Colors.blueGrey,
@@ -317,6 +316,15 @@ class CalibrationScreenState extends State<CalibrationScreen> {
                           ),
                         ),
                       ],
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Center(
+                    child: ElevatedButton(
+                      onPressed: _generateCsvFile,
+                      child: const Text('Generate CSV'),
+                    ),
                     ),
                   ],
                 ),

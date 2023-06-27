@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wear_os/esense/device.dart';
 import 'package:wear_os/globals/connection.dart' as g;
 import 'package:wear_os/util/callback.dart';
-
+import 'package:wear_os/globals.dart' as g;
 class ConnectScreen extends StatefulWidget {
   const ConnectScreen({super.key});
 
@@ -94,6 +94,8 @@ class ConnectScreenState extends State<ConnectScreen> {
     }
   }
 
+  TextEditingController textcon = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -146,6 +148,40 @@ class ConnectScreenState extends State<ConnectScreen> {
                 ],
               ),
             ),
+            Expanded(child:
+
+            Column(
+              children: [
+                TextField(
+                  controller: textcon,
+              decoration: const InputDecoration(
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey, width: 0.0),
+                ),
+                hintText: 'Set the name for device',
+
+                labelText: 'Esense device',
+              ),
+
+
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                ElevatedButton(onPressed: (){
+                  setState(() {
+                    g.devicenm=textcon.text;
+                    textcon.text="";
+                  });
+                }, child: const Text("Set Esense device name")),
+                const SizedBox(
+                  height: 20,
+                ),
+                Text("After connecting, go to other tab to calibrate the data  and generate CSV")
+              ],
+            ),),
+
+
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -153,6 +189,8 @@ class ConnectScreenState extends State<ConnectScreen> {
                 child: Text(_buttonText),
               ),
             ),
+
+
           ],
         ),
       ),

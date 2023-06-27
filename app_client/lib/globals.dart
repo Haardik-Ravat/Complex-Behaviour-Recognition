@@ -1,9 +1,10 @@
 library globals;
 import 'dart:async';
 
-String currentActivity="";
-int actindex=0;
+String currentActivity="Not Selected";
 
+
+String devicenm="random";
 
 List<dynamic> times = [];
 List<dynamic> datalist = [];
