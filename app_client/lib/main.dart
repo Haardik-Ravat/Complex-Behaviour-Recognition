@@ -37,8 +37,6 @@ const NoIcon = Icon(
   color: Colors.red,
 );
 
-
-
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -63,10 +61,6 @@ class _MyAppState extends State<MyApp> {
   StreamSubscription<AccelerometerEvent>? _accelerometerStream;
   StreamSubscription<GyroscopeEvent>? _gyroscopeStream;
 
-
-
-
-
   @override
   void initState() {
     super.initState();
@@ -86,20 +80,6 @@ class _MyAppState extends State<MyApp> {
         globals.updateDatalist(l);
         globals.times.add(DateTime.now().millisecondsSinceEpoch);
         _log.add('Received message: $e');
-        final accelerometerData = e['accelerometer'];
-        final gyroscopeData = e['gyroscope'];
-        if (accelerometerData != null && gyroscopeData != null) {
-          final List<double> entry = [
-            // DateTime.now().millisecondsSinceEpoch.toDouble(),
-            accelerometerData['x'] ?? 0.0,
-            accelerometerData['y'] ?? 0.0,
-            accelerometerData['z'] ?? 0.0,
-            gyroscopeData['x'] ?? 0.0,
-            gyroscopeData['y'] ?? 0.0,
-            gyroscopeData['z'] ?? 0.0,
-          ];
-          globals.datalist.add(entry);
-        }
       });
     });
     initPlatformState();
@@ -167,126 +147,109 @@ class _MyAppState extends State<MyApp> {
     final file = File(filePath);
     await file.writeAsString(csvString);
 
-
     const snackBar = SnackBar(
       content: Text('CSV file saved in external storage'),
     );
 
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
-
     print('CSV file saved in external storage: $directory');
   }
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
     final home = Scaffold(
-      body:
-         Padding(
-          padding: const EdgeInsets.all(32),
-          child: SafeArea(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const ListTile(
-                    title: Text(
-                      'Connection State',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
+      body: Padding(
+        padding: const EdgeInsets.all(32),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const ListTile(
+                  title: Text(
+                    'Connection State',
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  ListTile(
-                    leading: _supported
-                        ? YesIcon
-
-                        : NoIcon,
-                    title: const Text('Supported'),
+                ),
+                ListTile(
+                  leading: _supported ? YesIcon : NoIcon,
+                  title: const Text('Supported'),
+                ),
+                ListTile(
+                  leading: _paired ? YesIcon : NoIcon,
+                  title: const Text('Paired'),
+                ),
+                ListTile(
+                  leading: _reachable ? YesIcon : NoIcon,
+                  title: const Text('Reachable'),
+                ),
+                // Text('Supported: $_supported'),
+                // Text('Paired: $_paired'),
+                // Text('Reachable: $_reachable'),
+                TextButton(
+                  onPressed: initPlatformState,
+                  child: const Text('Refresh'),
+                ),
+                const SizedBox(height: 10),
+                ElevatedButton(
+                  onPressed: _generateCsvFile,
+                  child: const Text('Generate CSV'),
+                ),
+                const SizedBox(height: 10),
+                ElevatedButton(
+                  onPressed: toggleBackgroundMessaging,
+                  child: Text(
+                    '${timer == null ? 'Start' : 'Stop'} background messaging',
+                    textAlign: TextAlign.center,
                   ),
-                  ListTile(
-                    leading: _paired
-                        ? YesIcon
-
-                        : NoIcon,
-                    title: const Text('Paired'),
-                  ),ListTile(
-                    leading: _reachable
-                        ? YesIcon
-
-                        : NoIcon,
-                    title: const Text('Reachable'),
-                  ),
-                  // Text('Supported: $_supported'),
-                  // Text('Paired: $_paired'),
-                  // Text('Reachable: $_reachable'),
-                  TextButton(
-                    onPressed: initPlatformState,
-                    child: const Text('Refresh'),
-                  ),
-                  const SizedBox(height: 10),
-             ElevatedButton(
-              onPressed: _generateCsvFile,
-              child: const Text('Generate CSV'),
-            ),
-            const SizedBox(height: 10),
-                   ElevatedButton(
-                    onPressed: toggleBackgroundMessaging,
-                    child: Text(
-                      '${timer == null ? 'Start' : 'Stop'} background messaging',
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  // TextButton(
-                  //   onPressed: () {
-                  //     Navigator.push(context,
-                  //         MaterialPageRoute(builder: (context) => Graphs()));
-                  //   },
-                  //   child: const Text('Graphs'),
-                  // ),
-                  // const SizedBox(width: 16),
-                  // TextButton(
-                  //   onPressed: () {
-                  //     Navigator.push(context,
-                  //         MaterialPageRoute(builder: (context) => PongSense()));
-                  //   },
-                  //   child: const Text('Esense'),
-                  // ),
-                  const SizedBox(width: 30),
-                  TextButton(
-                    onPressed: (){
-                      setState(() {
-                        _log.clear();
-                      });
-
-                    },
-                    child: const Text('Clear Log'),
-                  ),
-                  const SizedBox(width: 15),
-                  const Text('Log'),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Center(
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        child: ListView(
-                          shrinkWrap: true,
-                          children:
-                              _log.reversed.map((log) => Text(log)).toList(),
-                        ),
+                ),
+                // TextButton(
+                //   onPressed: () {
+                //     Navigator.push(context,
+                //         MaterialPageRoute(builder: (context) => Graphs()));
+                //   },
+                //   child: const Text('Graphs'),
+                // ),
+                // const SizedBox(width: 16),
+                // TextButton(
+                //   onPressed: () {
+                //     Navigator.push(context,
+                //         MaterialPageRoute(builder: (context) => PongSense()));
+                //   },
+                //   child: const Text('Esense'),
+                // ),
+                const SizedBox(width: 30),
+                TextButton(
+                  onPressed: () {
+                    setState(() {
+                      _log.clear();
+                    });
+                  },
+                  child: const Text('Clear Log'),
+                ),
+                const SizedBox(width: 15),
+                const Text('Log'),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Center(
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: ListView(
+                        shrinkWrap: true,
+                        children:
+                            _log.reversed.map((log) => Text(log)).toList(),
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
-
+      ),
     );
 
     return MaterialApp(

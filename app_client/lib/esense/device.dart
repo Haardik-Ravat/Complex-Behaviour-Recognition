@@ -6,6 +6,7 @@ import 'package:wear_os/esense/sender.dart';
 import 'package:wear_os/util/callback.dart';
 import 'package:wear_os/util/pair.dart';
 import 'package:wear_os/globals.dart' as g;
+
 enum DeviceState {
   waiting,
   searching,
@@ -15,12 +16,12 @@ enum DeviceState {
 }
 
 class Device {
-  // static const String deviceName = "";
+  static const String deviceName = "eSense-0885";
   static const Duration requestDelay = Duration(milliseconds: 1000);
   static const Duration connectionDelay = Duration(milliseconds: 250);
   static const int samplingRate = 60;
 
-  final _manager = ESenseManager(g.devicenm);
+  final _manager = ESenseManager(deviceName);
   final _sender = Sender(1000);
 
   var _callbackIndex = 0;

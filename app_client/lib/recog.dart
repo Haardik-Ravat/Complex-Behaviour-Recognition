@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'globals.dart' as g;
 
-
 class Recog extends StatefulWidget {
   const Recog({Key? key}) : super(key: key);
 
@@ -10,8 +9,9 @@ class Recog extends StatefulWidget {
 }
 
 class _RecogState extends State<Recog> {
-  TextEditingController _textFieldController = TextEditingController();
+  final TextEditingController _textFieldController = TextEditingController();
   List<String> options = [];
+  int selectedIndex = -1;
 
   @override
   void dispose() {
@@ -23,25 +23,28 @@ class _RecogState extends State<Recog> {
     setState(() {
       options.add(text);
       _textFieldController.clear();
+      if (selectedIndex == -1) {
+        g.currentActivity = text;
+      }
     });
   }
 
   void _removeOption(String text) {
     setState(() {
       options.remove(text);
+      if (g.currentActivity == text) {
+        g.currentActivity = '';
+      }
     });
   }
 
   void _csvoption() {
-    print(options); // Replace this with your desired action
+    // print(options); // Replace this with your desired action
   }
-
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: Column(
         children: <Widget>[
           Padding(
@@ -57,33 +60,40 @@ class _RecogState extends State<Recog> {
             ),
           ),
           const SizedBox(height: 16.0),
-          Text("Currently Selected Activity:",
+          const Text(
+            "Currently Selected Activity:",
             style: TextStyle(fontWeight: FontWeight.w700),
           ),
-          Text(g.currentActivity,
-            style: TextStyle(fontWeight: FontWeight.w300),),
-SizedBox(height: 20,),
-          Text("Click the checkbox to Select Activity",
-            style: TextStyle(fontWeight: FontWeight.w500),),
+          Text(
+            g.currentActivity,
+            style: const TextStyle(fontWeight: FontWeight.w300),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          const Text(
+            "Click the checkbox to Select Activity",
+            style: TextStyle(fontWeight: FontWeight.w500),
+          ),
 
           Expanded(
             child: ListView.builder(
               itemCount: options.length,
               itemBuilder: (context, index) {
-                bool isSelected = false; // track the selected state of the option
                 return ListTile(
-                  // tileColor: isSelected ? Colors.blue : null, // change color if selected
-                  title:
-
-                  Row(
-
+                  tileColor: selectedIndex == index ? Colors.blue : null,
+                  title: Row(
                     children: [
                       Checkbox(
-                        value: true,
+                        value: selectedIndex == index,
                         onChanged: (bool? val) {
                           setState(() {
-                            g.currentActivity=options[index];
-                            isSelected = val!;
+                            selectedIndex = val! ? index : -1;
+                            if (selectedIndex != -1) {
+                              g.currentActivity = options[selectedIndex];
+                            } else {
+                              g.currentActivity = '';
+                            }
                           });
                         },
                       ),
