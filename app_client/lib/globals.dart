@@ -16,7 +16,6 @@ StreamController<List<dynamic>> _datalistStreamController =
 Stream<List<dynamic>> get datalistStream => _datalistStreamController.stream;
 
 void updateDatalist(List<dynamic> newData) {
-  datalist.add(newData);
   _datalistStreamController.add(datalist);
 }
 

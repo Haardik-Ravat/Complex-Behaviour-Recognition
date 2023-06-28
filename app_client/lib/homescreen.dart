@@ -15,39 +15,34 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 4,
+        length: 3,
         child: Scaffold(
-      appBar: AppBar(
-          title: const Text('Complex Behaviour Recognition'),
-        bottom: const TabBar(
-          tabs: [
-            Tab(
-              text: 'Data',
+            appBar: AppBar(
+              title: const Text('Complex Behaviour Recognition'),
+              bottom: const TabBar(
+                tabs: [
+                  Tab(
+                    text: 'Data',
+                  ),
+                  Tab(
+                    text: 'Watch',
+                  ),
+                  Tab(
+                    text: 'Esense',
+                  ),
+                  // Tab(
+                  //   text: 'Graphs',
+                  // ),
+                ],
+              ),
             ),
-            Tab(
-              text: 'Watch',
-            ),
-            Tab(
-              text: 'Esense',
-            ),
-            Tab(
-              text: 'Graphs',
-            ),
-
-          ],
-        ),
-      ),
-      body: const TabBarView(
-        children: <Widget>[
-          Recog(),
-         MyApp(),
-          PongSense(),
-Graphs(),
-
-
-        ],
-      )
-        )
-    );
+            body: const TabBarView(
+              children: <Widget>[
+                Recog(),
+                MyApp(),
+                PongSense(),
+// Graphs(),
+              ],
+            )));
   }
 }

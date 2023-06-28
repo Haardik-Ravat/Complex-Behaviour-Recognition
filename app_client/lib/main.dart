@@ -53,7 +53,7 @@ class _MyAppState extends State<MyApp> {
   var _context = <String, dynamic>{};
   var _receivedContexts = <Map<String, dynamic>>[];
   final _log = <String>[];
-  // List globals.datalist = [];
+
   Timer? timer;
 
   AccelerometerEvent? _accelerometerEvent;
@@ -206,13 +206,13 @@ class _MyAppState extends State<MyApp> {
                     textAlign: TextAlign.center,
                   ),
                 ),
-                // TextButton(
-                //   onPressed: () {
-                //     Navigator.push(context,
-                //         MaterialPageRoute(builder: (context) => Graphs()));
-                //   },
-                //   child: const Text('Graphs'),
-                // ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Graphs()));
+                  },
+                  child: const Text('Graphs'),
+                ),
                 // const SizedBox(width: 16),
                 // TextButton(
                 //   onPressed: () {
