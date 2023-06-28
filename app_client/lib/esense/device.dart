@@ -15,7 +15,10 @@ enum DeviceState {
   initialized,
 }
 
+
+
 class Device {
+
   static const String deviceName = "eSense-0885";
   static const Duration requestDelay = Duration(milliseconds: 1000);
   static const Duration connectionDelay = Duration(milliseconds: 250);

@@ -10,7 +10,7 @@ class Recog extends StatefulWidget {
 
 class _RecogState extends State<Recog> {
   final TextEditingController _textFieldController = TextEditingController();
-  List<String> options = [];
+
   int selectedIndex = -1;
 
   @override
@@ -21,7 +21,7 @@ class _RecogState extends State<Recog> {
 
   void _addOption(String text) {
     setState(() {
-      options.add(text);
+      g.options.add(text);
       _textFieldController.clear();
       if (selectedIndex == -1) {
         g.currentActivity = text;
@@ -31,16 +31,14 @@ class _RecogState extends State<Recog> {
 
   void _removeOption(String text) {
     setState(() {
-      options.remove(text);
+      g.options.remove(text);
       if (g.currentActivity == text) {
         g.currentActivity = '';
       }
     });
   }
 
-  void _csvoption() {
-    // print(options); // Replace this with your desired action
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +76,7 @@ class _RecogState extends State<Recog> {
 
           Expanded(
             child: ListView.builder(
-              itemCount: options.length,
+              itemCount: g.options.length,
               itemBuilder: (context, index) {
                 return ListTile(
                   tileColor: selectedIndex == index ? Colors.blue : null,
@@ -90,20 +88,20 @@ class _RecogState extends State<Recog> {
                           setState(() {
                             selectedIndex = val! ? index : -1;
                             if (selectedIndex != -1) {
-                              g.currentActivity = options[selectedIndex];
+                              g.currentActivity = g.options[selectedIndex];
                             } else {
                               g.currentActivity = '';
                             }
                           });
                         },
                       ),
-                      Text(options[index]),
+                      Text(g.options[index]),
                     ],
                   ),
                   trailing: IconButton(
                     icon: const Icon(Icons.delete),
                     onPressed: () {
-                      _removeOption(options[index]);
+                      _removeOption(g.options[index]);
                     },
                   ),
                 );

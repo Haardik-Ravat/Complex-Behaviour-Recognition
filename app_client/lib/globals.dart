@@ -5,6 +5,8 @@ import 'dart:async';
 String currentActivity = "Not Selected";
 
 String devicenm = "random";
+List<String> options = [];
+
 
 List<dynamic> times = [];
 List<dynamic> datalist = [];
