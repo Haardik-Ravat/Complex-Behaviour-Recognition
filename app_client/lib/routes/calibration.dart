@@ -44,7 +44,6 @@ class CalibrationScreenState extends State<CalibrationScreen> {
 
   Vector3? _calibrateLeft = g.angler.calibrateLeft;
   Vector3? _calibrateRight = g.angler.calibrateRight;
-  List<dynamic> datalistesense = [];
 
   final _controllerFront = DiTreDiController(
     rotationX: -90,
@@ -70,7 +69,8 @@ class CalibrationScreenState extends State<CalibrationScreen> {
       print(statuses[Permission.storage]);
     }
 
-    final csvData = datalistesense.map((list) => list.join(',')).join('\n');
+    final csvData =
+        globals.datalistesense.map((list) => list.join(',')).join('\n');
     final csvString = 'x,y,z\n' + csvData;
 
     bool dirDownloadExists = true;
@@ -198,7 +198,7 @@ class CalibrationScreenState extends State<CalibrationScreen> {
         event.gyro?[2],
         globals.currentActivity,
       ];
-      datalistesense.add(l);
+      globals.datalistesense.add(l);
 
       // print(event.accel);
       // print(event.gyro);
@@ -238,7 +238,6 @@ class CalibrationScreenState extends State<CalibrationScreen> {
     return Scaffold(
       body: Column(
         children: [
-
           Container(
             height: 200,
             color: Colors.blueGrey,
@@ -321,10 +320,10 @@ class CalibrationScreenState extends State<CalibrationScreen> {
                       height: 20,
                     ),
                     Center(
-                    child: ElevatedButton(
-                      onPressed: _generateCsvFile,
-                      child: const Text('Generate CSV'),
-                    ),
+                      child: ElevatedButton(
+                        onPressed: _generateCsvFile,
+                        child: const Text('Generate CSV'),
+                      ),
                     ),
                   ],
                 ),
