@@ -67,15 +67,16 @@ class _MyAppState extends State<MyApp> {
     _watch = WatchConnectivity();
     _watch.messageStream.listen((e) {
       setState(() {
-        List l = [
+        List liss = [
           e['accelerometer']['x'],
           e['accelerometer']['y'],
           e['accelerometer']['z'],
           e['gyroscope']['x'],
           e['gyroscope']['y'],
           e['gyroscope']['z'],
-          globals.currentActivity,
+
         ];
+        List l= liss+globals.activity;
         globals.datalist.add(l);
         globals.updateDatalist(l);
         globals.times.add(DateTime.now().millisecondsSinceEpoch);

@@ -6,6 +6,8 @@ String currentActivity = "Not Selected";
 
 String devicenm = "random";
 List<String> options = [];
+List<String> activity = [];
+Map<String, bool> values={};
 
 
 List<dynamic> times = [];

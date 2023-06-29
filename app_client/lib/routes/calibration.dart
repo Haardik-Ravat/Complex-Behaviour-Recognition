@@ -189,15 +189,17 @@ class CalibrationScreenState extends State<CalibrationScreen> {
       final accelScale = g.device.deviceConfig?.accRange?.sensitivityFactor;
       if (gyroScale == null || accelScale == null) return;
 
-      List l = [
+      List liss = [
         event.accel?[0],
         event.accel?[1],
         event.accel?[2],
         event.gyro?[0],
         event.gyro?[1],
         event.gyro?[2],
-        globals.currentActivity,
+
       ];
+      List l= liss+globals.activity;
+
       globals.datalistesense.add(l);
 
       // print(event.accel);

@@ -11,7 +11,7 @@ class Recog extends StatefulWidget {
 class _RecogState extends State<Recog> {
   final TextEditingController _textFieldController = TextEditingController();
 
-  int selectedIndex = -1;
+  // int selectedIndex = -1;
 
   @override
   void dispose() {
@@ -22,19 +22,24 @@ class _RecogState extends State<Recog> {
   void _addOption(String text) {
     setState(() {
       g.options.add(text);
+      g.values[text]=true;
+      g.activity.add(text);
       _textFieldController.clear();
-      if (selectedIndex == -1) {
-        g.currentActivity = text;
-      }
+      // if (selectedIndex == -1) {
+      //   g.currentActivity = text;
+      // }
+
+
     });
   }
 
   void _removeOption(String text) {
     setState(() {
       g.options.remove(text);
-      if (g.currentActivity == text) {
-        g.currentActivity = '';
-      }
+      g.activity.remove(text);
+      // if (g.currentActivity == text) {
+      //   g.currentActivity = '';
+      // }
     });
   }
 
@@ -63,7 +68,7 @@ class _RecogState extends State<Recog> {
             style: TextStyle(fontWeight: FontWeight.w700),
           ),
           Text(
-            g.currentActivity,
+            g.activity.join(', '),
             style: const TextStyle(fontWeight: FontWeight.w300),
           ),
           const SizedBox(
@@ -79,19 +84,31 @@ class _RecogState extends State<Recog> {
               itemCount: g.options.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                  tileColor: selectedIndex == index ? Colors.blue : null,
+                  // tileColor: selectedIndex == index ? Colors.blue : null,
                   title: Row(
                     children: [
                       Checkbox(
-                        value: selectedIndex == index,
+                        value: g.values[g.options[index]],
                         onChanged: (bool? val) {
                           setState(() {
-                            selectedIndex = val! ? index : -1;
-                            if (selectedIndex != -1) {
-                              g.currentActivity = g.options[selectedIndex];
-                            } else {
-                              g.currentActivity = '';
+                            if(g.values[g.options[index]] == false){
+                              g.values[g.options[index]] = true;
+
                             }
+                            else{
+                              g.values[g.options[index]] = false;
+                              g.activity.remove(g.options[index]);
+                            }
+
+                            if (g.values[g.options[index]] != false) {
+                              // g.currentActivity = g.options[selectedIndex];
+
+                              g.activity.add(g.options[index]);
+
+                            }
+                            // else {
+                            //   g.currentActivity = '';
+                            // }
                           });
                         },
                       ),
