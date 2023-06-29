@@ -20,17 +20,20 @@ class _RecogState extends State<Recog> {
   }
 
   void _addOption(String text) {
-    setState(() {
-      g.options.add(text);
-      g.values[text]=true;
-      g.activity.add(text);
-      _textFieldController.clear();
-      // if (selectedIndex == -1) {
-      //   g.currentActivity = text;
-      // }
+
+    if(text!="") {
+      setState(() {
+        g.options.add(text);
+        g.values[text] = true;
+        g.activity.add(text);
+        _textFieldController.clear();
+        // if (selectedIndex == -1) {
+        //   g.currentActivity = text;
+        // }
 
 
-    });
+      });
+    }
   }
 
   void _removeOption(String text) {
