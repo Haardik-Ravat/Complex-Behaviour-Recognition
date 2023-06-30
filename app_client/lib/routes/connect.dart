@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:wear_os/esense/device.dart';
 import 'package:wear_os/globals/connection.dart' as g;
+import 'package:wear_os/homescreen.dart';
 import 'package:wear_os/util/callback.dart';
-import 'package:wear_os/globals.dart' as g;
+import 'package:wear_os/globals.dart' as gt;
 class ConnectScreen extends StatefulWidget {
   const ConnectScreen({super.key});
 
@@ -99,6 +100,19 @@ class ConnectScreenState extends State<ConnectScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          leading: BackButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const HomeScreen()),
+              );
+            }
+            ,
+          ),
+          title: const Text('Esense Connect'),
+
+        ),
       body: Padding(
         padding: const EdgeInsets.all(32.0),
         child: Column(
@@ -152,25 +166,25 @@ class ConnectScreenState extends State<ConnectScreen> {
 
             Column(
               children: [
-                TextField(
-                  controller: textcon,
-              decoration: const InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey, width: 0.0),
-                ),
-                hintText: 'Set the name for device',
-
-                labelText: 'Esense device',
-              ),
-
-
-                ),
+              //   TextField(
+              //     controller: textcon,
+              // decoration: const InputDecoration(
+              //   enabledBorder: OutlineInputBorder(
+              //     borderSide: BorderSide(color: Colors.grey, width: 0.0),
+              //   ),
+              //   hintText: 'Set the name for device',
+              //
+              //   labelText: 'Esense device',
+              // ),
+              //
+              //
+              //   ),
                 const SizedBox(
                   height: 20,
                 ),
                 ElevatedButton(onPressed: (){
                   setState(() {
-                    g.devicenm=textcon.text;
+                    gt.devicenm=textcon.text;
                     textcon.text="";
                   });
                 }, child: const Text("Set Esense device name")),

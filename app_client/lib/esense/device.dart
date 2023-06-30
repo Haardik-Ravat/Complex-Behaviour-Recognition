@@ -19,12 +19,12 @@ enum DeviceState {
 
 class Device {
 
-  static const String deviceName = "eSense-0885";
+  // static const String deviceName = g.devicenm;
   static const Duration requestDelay = Duration(milliseconds: 1000);
   static const Duration connectionDelay = Duration(milliseconds: 250);
   static const int samplingRate = 60;
 
-  final _manager = ESenseManager(deviceName);
+  final _manager = ESenseManager(g.devicenm);
   final _sender = Sender(1000);
 
   var _callbackIndex = 0;
