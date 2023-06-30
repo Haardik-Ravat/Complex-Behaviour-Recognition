@@ -124,28 +124,31 @@ class _MyAppState extends State<MyApp> {
       ].request();
       print(statuses[Permission.storage]);
     }
-
+    print("joeooe1");
     final csvData = globals.datalist.map((list) => list.join(',')).join('\n');
     final csvString = 'x,y,z\n' + csvData;
 
-    bool dirDownloadExists = true;
-    var directory;
-    if (Platform.isIOS) {
-      directory = await getDownloadsDirectory();
+    Directory _directory = Directory("");
+    if (Platform.isAndroid) {
+      // Redirects it to download folder in android
+      _directory = Directory("/storage/emulated/0/Download");
     } else {
-      directory = "/storage/emulated/0/Download/";
-
-      dirDownloadExists = await Directory(directory).exists();
-      if (dirDownloadExists) {
-        directory = "/storage/emulated/0/Download/";
-      } else {
-        directory = "/storage/emulated/0/Downloads/";
-      }
+      _directory = await getApplicationDocumentsDirectory();
     }
-    final filePath = '${directory}/data.csv';
 
-    final file = File(filePath);
+    final exPath = _directory.path;
+    print("Saved Path: $exPath");
+    await Directory(exPath).create(recursive: true);
+
+    print("joeooe2");
+
+    File file = File('$exPath/data.csv');
+
+    // final filePath = '${directory}/data.csv';
+
+    // final file = File(filePath);
     await file.writeAsString(csvString);
+    print("joeooe3");
 
     const snackBar = SnackBar(
       content: Text('CSV file saved in external storage'),
@@ -153,7 +156,7 @@ class _MyAppState extends State<MyApp> {
 
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
-    print('CSV file saved in external storage: $directory');
+    print('CSV file saved in external storage: $_directory');
   }
 
   @override
