@@ -4,6 +4,7 @@ import 'package:wear_os/globals/connection.dart' as g;
 import 'package:wear_os/homescreen.dart';
 import 'package:wear_os/util/callback.dart';
 import 'package:wear_os/globals.dart' as gt;
+
 class ConnectScreen extends StatefulWidget {
   const ConnectScreen({super.key});
 
@@ -66,7 +67,10 @@ class ConnectScreenState extends State<ConnectScreen> {
   String get _buttonText {
     switch (_deviceState) {
       case DeviceState.waiting:
-        return 'Connect';
+        {
+          gt.pages = false;
+          return 'Connect';
+        }
       case DeviceState.searching:
         return 'Searching...';
       case DeviceState.connecting:
@@ -74,7 +78,10 @@ class ConnectScreenState extends State<ConnectScreen> {
       case DeviceState.connected:
         return 'Initializing...';
       case DeviceState.initialized:
-        return 'Disconnect';
+        {
+          gt.pages = true;
+          return 'Disconnect';
+        }
     }
   }
 
@@ -100,19 +107,17 @@ class ConnectScreenState extends State<ConnectScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          leading: BackButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const HomeScreen()),
-              );
-            }
-            ,
-          ),
-          title: const Text('Esense Connect'),
-
+      appBar: AppBar(
+        leading: BackButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const HomeScreen()),
+            );
+          },
         ),
+        title: const Text('Esense Connect'),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(32.0),
         child: Column(
@@ -162,40 +167,34 @@ class ConnectScreenState extends State<ConnectScreen> {
                 ],
               ),
             ),
-            Expanded(child:
+            const Expanded(
+              child: Column(
+                children: [
+                  //   TextField(
+                  //     controller: textcon,
+                  // decoration: const InputDecoration(
+                  //   enabledBorder: OutlineInputBorder(
+                  //     borderSide: BorderSide(color: Colors.grey, width: 0.0),
+                  //   ),
+                  //   hintText: 'Set the name for device',
+                  //
+                  //   labelText: 'Esense device',
+                  // ),
+                  //
+                  //
+                  //   ),
+                  SizedBox(
+                    height: 20,
+                  ),
 
-            Column(
-              children: [
-              //   TextField(
-              //     controller: textcon,
-              // decoration: const InputDecoration(
-              //   enabledBorder: OutlineInputBorder(
-              //     borderSide: BorderSide(color: Colors.grey, width: 0.0),
-              //   ),
-              //   hintText: 'Set the name for device',
-              //
-              //   labelText: 'Esense device',
-              // ),
-              //
-              //
-              //   ),
-                const SizedBox(
-                  height: 20,
-                ),
-                ElevatedButton(onPressed: (){
-                  setState(() {
-                    gt.devicenm=textcon.text;
-                    textcon.text="";
-                  });
-                }, child: const Text("Set Esense device name")),
-                const SizedBox(
-                  height: 20,
-                ),
-                Text("After connecting, go to other tab to calibrate the data  and generate CSV")
-              ],
-            ),),
-
-
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                      "After connecting, go to other tab to calibrate the data  and generate CSV")
+                ],
+              ),
+            ),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -203,8 +202,6 @@ class ConnectScreenState extends State<ConnectScreen> {
                 child: Text(_buttonText),
               ),
             ),
-
-
           ],
         ),
       ),

@@ -15,11 +15,14 @@ enum DeviceState {
   initialized,
 }
 
-
-
 class Device {
+  String deviceName = "";
+  Device(String name) {
+    this.deviceName = name;
+    _debugConnectionSub = _manager.connectionEvents.listen(print);
+    _connectionSub = _manager.connectionEvents.listen(_onConnectionEvent);
+  }
 
-  // static const String deviceName = g.devicenm;
   static const Duration requestDelay = Duration(milliseconds: 1000);
   static const Duration connectionDelay = Duration(milliseconds: 250);
   static const int samplingRate = 60;
@@ -66,11 +69,6 @@ class Device {
     }
     __state = val;
     invokeCallbacks(_stateCallbacks, val);
-  }
-
-  Device() {
-    _debugConnectionSub = _manager.connectionEvents.listen(print);
-    _connectionSub = _manager.connectionEvents.listen(_onConnectionEvent);
   }
 
   bool isReady() => __state == DeviceState.initialized;
