@@ -4,6 +4,7 @@ import 'package:wear_os/graphs.dart';
 import 'package:wear_os/main.dart';
 import 'package:wear_os/pongsense.dart';
 import 'package:wear_os/recog.dart';
+import 'package:wear_os/tabcontrol.dart';
 import 'globals.dart' as gs;
 
 class HomeScreen extends StatefulWidget {
@@ -44,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Recog(),
                 MyApp(),
 
-               EsenseConnect(),
+              TabControl(),
 // Graphs(),
               ],
             )));

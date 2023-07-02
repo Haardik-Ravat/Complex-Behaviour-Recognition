@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wear_os/homescreen.dart';
 import 'package:wear_os/pongsense.dart';
 import 'globals.dart' as g;
 class EsenseConnect extends StatefulWidget {
@@ -47,28 +48,44 @@ class _EsenseConnectState extends State<EsenseConnect> {
 
 
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                ElevatedButton(onPressed: (){
-                  setState(() {
-                    g.devicenm=tc.text;
-                    tc.text="";
-                  });
-                },
-                    child: const Text("Set Esense device name")),
+                // const SizedBox(
+                //   height: 20,
+                // ),
+                // ElevatedButton(onPressed: (){
+                //
+                // },
+                //     child: const Text("Set Esense device name")),
                 const SizedBox(
                   height: 20,
                 ),
 
-                ElevatedButton(onPressed: (){
-                  setState(() {
-                    g.pages=true;
-                  });
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const PongSense()),
-                  );
+                ElevatedButton(onPressed: () {
+                  if (tc.text.trim() == "") {
+
+
+                    const snackBar = SnackBar(
+                      content: Text('Device name field cannot be empty'),
+                    );
+
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    tc.text="";
+                  }
+
+                  else {
+
+                    setState(() {
+                      g.devicenm=tc.text;
+                      tc.text="";
+                      g.pages = true;
+                    });
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const HomeScreen()),
+                    );
+
+                  }
+
                 },
                     child: const Text("GO")),
               ],

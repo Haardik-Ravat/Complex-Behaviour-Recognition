@@ -6,7 +6,7 @@ String currentActivity = "Not Selected";
 
 bool pages=false;
 
-String devicenm = "random";
+String devicenm = "none";
 List<String> options = [];
 List<String> activity = [];
 Map<String, bool> values={};

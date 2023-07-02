@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wear_os/esense/device.dart';
+import 'package:wear_os/esenseconnect.dart';
 import 'package:wear_os/globals/connection.dart' as g;
 import 'package:wear_os/homescreen.dart';
 import 'package:wear_os/util/callback.dart';
@@ -68,7 +69,7 @@ class ConnectScreenState extends State<ConnectScreen> {
     switch (_deviceState) {
       case DeviceState.waiting:
         {
-          gt.pages = false;
+          // gt.pages = false;
           return 'Connect';
         }
       case DeviceState.searching:
@@ -89,6 +90,7 @@ class ConnectScreenState extends State<ConnectScreen> {
     switch (_deviceState) {
       case DeviceState.waiting:
         return () {
+
           g.device.connectAndStartListening();
         };
       case DeviceState.searching:
@@ -97,6 +99,7 @@ class ConnectScreenState extends State<ConnectScreen> {
         return null;
       case DeviceState.initialized:
         return () {
+
           g.device.disconnectAndStopListening();
         };
     }
@@ -107,17 +110,17 @@ class ConnectScreenState extends State<ConnectScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: BackButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const HomeScreen()),
-            );
-          },
-        ),
-        title: const Text('Esense Connect'),
-      ),
+      // appBar: AppBar(
+      //   leading: BackButton(
+      //     onPressed: () {
+      //       Navigator.push(
+      //         context,
+      //         MaterialPageRoute(builder: (context) => const HomeScreen()),
+      //       );
+      //     },
+      //   ),
+      //   title: const Text('Esense Connect'),
+      // ),
       body: Padding(
         padding: const EdgeInsets.all(32.0),
         child: Column(
@@ -167,7 +170,7 @@ class ConnectScreenState extends State<ConnectScreen> {
                 ],
               ),
             ),
-            const Expanded(
+             Expanded(
               child: Column(
                 children: [
                   //   TextField(
@@ -183,15 +186,36 @@ class ConnectScreenState extends State<ConnectScreen> {
                   //
                   //
                   //   ),
-                  SizedBox(
-                    height: 20,
-                  ),
+                  ElevatedButton(onPressed: (){
 
+                    print('hi');
+                    gt.pages=false;
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const EsenseConnect()),
+                    );
+                    Navigator.pop(context);
+                  },
+                      child: Text("Change device name")),
+                  Text(
+                      "Currently Selected Device:"),
                   SizedBox(
                     height: 20,
                   ),
                   Text(
-                      "After connecting, go to other tab to calibrate the data  and generate CSV")
+                     gt.devicenm,
+                    style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 12.0,
+                  ),),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                      "After connecting, go to other tab to calibrate the data  and generate CSV"),
+
+
                 ],
               ),
             ),
