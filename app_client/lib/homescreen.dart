@@ -3,6 +3,7 @@ import 'package:wear_os/esenseconnect.dart';
 import 'package:wear_os/graphs.dart';
 import 'package:wear_os/main.dart';
 import 'package:wear_os/pongsense.dart';
+import 'package:wear_os/prediction.dart';
 import 'package:wear_os/recog.dart';
 import 'package:wear_os/tabcontrol.dart';
 import 'globals.dart' as gs;
@@ -19,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 3,
+        length: 4,
         child: Scaffold(
             appBar: AppBar(
               title: const Text('Complex Behaviour Recognition'),
@@ -34,9 +35,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   Tab(
                     text: 'Esense',
                   ),
-                  // Tab(
-                  //   text: 'Graphs',
-                  // ),
+                  Tab(
+                    text: 'Prediction',
+                  ),
                 ],
               ),
             ),
@@ -46,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 MyApp(),
 
               TabControl(),
-// Graphs(),
+ActivityRecog()
               ],
             )));
   }
