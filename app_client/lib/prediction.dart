@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'globals.dart' as g;
-// import 'package:tflite_flutter/tflite_flutter.dart';
+import 'package:tflite/tflite.dart';
 
 class ActivityRecog extends StatefulWidget {
   const ActivityRecog({Key? key}) : super(key: key);
