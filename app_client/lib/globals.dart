@@ -4,7 +4,9 @@ import 'dart:async';
 
 String currentActivity = "Not Selected";
 
-String devicenm = "random";
+bool pages=false;
+
+String devicenm = "none";
 List<String> options = [];
 List<String> activity = [];
 Map<String, bool> values={};

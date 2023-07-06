@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:wear_os/esenseconnect.dart';
 import 'package:wear_os/graphs.dart';
 import 'package:wear_os/main.dart';
 import 'package:wear_os/pongsense.dart';
 import 'package:wear_os/recog.dart';
+import 'package:wear_os/tabcontrol.dart';
+import 'globals.dart' as gs;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -12,6 +15,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -40,7 +44,8 @@ class _HomeScreenState extends State<HomeScreen> {
               children: <Widget>[
                 Recog(),
                 MyApp(),
-                PongSense(),
+
+              TabControl(),
 // Graphs(),
               ],
             )));

@@ -92,6 +92,12 @@ class CalibrationScreenState extends State<CalibrationScreen> {
     final file = File(filePath);
     await file.writeAsString(csvString);
 
+    const snackBar = SnackBar(
+      content: Text('CSV file saved in external storage'),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
     print('CSV file saved in external storage: $directory');
   }
 
