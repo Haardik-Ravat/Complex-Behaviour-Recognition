@@ -12,7 +12,7 @@ import 'package:wear_os/graphs.dart';
 import 'package:wear_os/homescreen.dart';
 import 'package:wear_os/pongsense.dart';
 import 'globals.dart' as globals;
-
+import 'package:iirjdart/butterworth.dart';
 late final bool isWear;
 
 void main() async {
@@ -63,6 +63,10 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
+
+
+
+
     super.initState();
     _watch = WatchConnectivity();
     _watch.messageStream.listen((e) {
@@ -76,7 +80,16 @@ class _MyAppState extends State<MyApp> {
           e['gyroscope']['z'],
 
         ];
-        List l= liss+globals.activity;
+
+        Butterworth butterworth = Butterworth();
+        butterworth.highPass(4, 250, 50);
+
+        List filteredData = [];
+        for(var v in liss) {
+          filteredData.add(butterworth.filter(v));
+        }
+
+        List l= filteredData+globals.activity;
         globals.datalist.add(l);
         globals.updateDatalist(l);
         globals.times.add(DateTime.now().millisecondsSinceEpoch);

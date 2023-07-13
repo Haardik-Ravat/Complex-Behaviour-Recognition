@@ -48,6 +48,7 @@ dependencies:
   csv: ^5.0.2
   tflite: ^1.1.2
   syncfusion_flutter_charts: ^21.2.10
+  iirjdart: ^0.1.0
   flame: ^1.5.0
   flame_audio: ^1.3.3
   esense_flutter:
@@ -83,6 +84,7 @@ flutter:
   assets:
       - assets/img_act.png
       - assets/menhera-chan-chibi.gif
+      - assets/model.tflite
 #     - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
