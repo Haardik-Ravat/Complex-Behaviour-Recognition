@@ -196,15 +196,15 @@ class CalibrationScreenState extends State<CalibrationScreen> {
       if (gyroScale == null || accelScale == null) return;
 
       List liss = [
+        DateTime.now().millisecondsSinceEpoch,
         event.accel?[0],
         event.accel?[1],
         event.accel?[2],
         event.gyro?[0],
         event.gyro?[1],
         event.gyro?[2],
-
       ];
-      List l= liss+globals.activity;
+      List l = liss + globals.activity;
 
       globals.datalistesense.add(l);
 
