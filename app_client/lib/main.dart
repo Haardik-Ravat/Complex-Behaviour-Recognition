@@ -78,18 +78,18 @@ class _MyAppState extends State<MyApp> {
           e['gyroscope']['x'],
           e['gyroscope']['y'],
           e['gyroscope']['z'],
-
+          DateTime.now().millisecondsSinceEpoch
         ];
 
-        Butterworth butterworth = Butterworth();
-        butterworth.highPass(4, 250, 50);
+        // Butterworth butterworth = Butterworth();
+        // butterworth.highPass(4, 250, 50);
+        //
+        // List filteredData = [];
+        // for(var v in liss) {
+        //   filteredData.add(butterworth.filter(v));
+        // }
 
-        List filteredData = [];
-        for(var v in liss) {
-          filteredData.add(butterworth.filter(v));
-        }
-
-        List l= filteredData+globals.activity;
+        List l= liss+globals.activity;
         globals.datalist.add(l);
         globals.updateDatalist(l);
         globals.times.add(DateTime.now().millisecondsSinceEpoch);
