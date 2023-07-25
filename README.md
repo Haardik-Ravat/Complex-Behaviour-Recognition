@@ -6,7 +6,7 @@ This repository contains the implementation of an app that focuses on optimizing
 
 ## Contributors
 - Dhruv (B20EE016)
-- Hardik (B20EE021)
+- Haardik (B20EE021)
 
   ## Demo
 
