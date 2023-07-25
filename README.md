@@ -5,8 +5,8 @@
 This repository contains the implementation of an app that focuses on optimizing data collection methods for Human Activity Recognition (HAR) by addressing data skewness, outliers, and time synchronization challenges. The goal is to improve the accuracy of real-time predictions without the need for complex preprocessing techniques.
 
 ## Contributors
-- Dhruv (B20EE016)
-- Haardik (B20EE021)
+- [Haardik Ravat](https://github.com/Haardik-Ravat)
+- [Dhruv Mahajan ](https://github.com/Dhruv-Mahajan1)
 
   ## Demo
 
