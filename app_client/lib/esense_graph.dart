@@ -29,10 +29,11 @@ class _EGraphsState extends State<EGraphs> {
             builder: (context, snapshot) {
               print("hehehehe");
               print(snapshot.data);
-              print(snapshot.hasData);
-              // return Text("helelele");
+              // globals.datalistesense.add('2');
+           // print(globals.datalistesense.toString());
+              // globals.EupdateDatalist(['x']);
               if (snapshot.hasData) {
-                final List<dynamic> updatedData = snapshot.data!;
+                final List<dynamic> updatedData = globals.datalistesense;
                 // print(updatedData);
                 // print(globals.times);
                 // List<_SensorData> data = [];

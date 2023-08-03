@@ -211,8 +211,7 @@ class CalibrationScreenState extends State<CalibrationScreen> {
       globals.datalistesense.add(l);
 // globals.datalist.add(l);
       globals.EupdateDatalist(l);
-      // print(event.accel);
-      // print(event.gyro);
+
 
       var gyro = toVec3(event.gyro);
       var accel = toVec3(event.accel);
