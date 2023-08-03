@@ -209,9 +209,8 @@ class CalibrationScreenState extends State<CalibrationScreen> {
       List l = liss + globals.activity;
 
       globals.datalistesense.add(l);
-// globals.datalist.add(l);
       globals.EupdateDatalist(l);
-
+      globals.etimes.add(DateTime.now().millisecondsSinceEpoch);
 
       var gyro = toVec3(event.gyro);
       var accel = toVec3(event.accel);
