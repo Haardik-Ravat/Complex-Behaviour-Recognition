@@ -16,7 +16,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -27,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
               bottom: const TabBar(
                 tabs: [
                   Tab(
-                    text: 'Data',
+                    text: 'Activity',
                   ),
                   Tab(
                     text: 'Watch',
@@ -36,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     text: 'Esense',
                   ),
                   Tab(
-                    text: 'Prediction',
+                    text: 'Combined',
                   ),
                 ],
               ),
@@ -45,9 +44,8 @@ class _HomeScreenState extends State<HomeScreen> {
               children: <Widget>[
                 Recog(),
                 MyApp(),
-
-              TabControl(),
-ActivityRecog()
+                TabControl(),
+                ActivityRecog()
               ],
             )));
   }

@@ -4,13 +4,12 @@ import 'dart:async';
 
 String currentActivity = "Not Selected";
 
-bool pages=false;
+bool pages = false;
 
 String devicenm = "none";
 List<String> options = [];
 List<String> activity = [];
-Map<String, bool> values={};
-
+Map<String, bool> values = {};
 
 List<dynamic> times = [];
 List<dynamic> datalist = [];
@@ -27,4 +26,16 @@ void updateDatalist(List<dynamic> newData) {
 
 void dispose() {
   _datalistStreamController.close();
+}
+
+StreamController<List<dynamic>> _EdatalistStreamController =
+    StreamController<List<dynamic>>.broadcast();
+Stream<List<dynamic>> get EdatalistStream => _EdatalistStreamController.stream;
+
+void EupdateDatalist(List<dynamic> newData) {
+  _EdatalistStreamController.add(newData);
+}
+
+void Edispose() {
+  _EdatalistStreamController.close();
 }

@@ -5,14 +5,14 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/material.dart';
 import 'globals.dart' as globals;
 
-class Graphs extends StatefulWidget {
-  const Graphs({Key? key}) : super(key: key);
+class EGraphs extends StatefulWidget {
+  const EGraphs({Key? key}) : super(key: key);
 
   @override
-  State<Graphs> createState() => _GraphsState();
+  State<EGraphs> createState() => _EGraphsState();
 }
 
-class _GraphsState extends State<Graphs> {
+class _EGraphsState extends State<EGraphs> {
   @override
   Widget build(BuildContext context) {
     // print(globals.datalist);
@@ -25,13 +25,13 @@ class _GraphsState extends State<Graphs> {
       body: Column(
         children: [
           StreamBuilder<List<dynamic>>(
-            stream: globals.datalistStream,
+            stream: globals.EdatalistStream,
             builder: (context, snapshot) {
               print("hehehehe");
               print(snapshot.data);
               print(snapshot.hasData);
               // return Text("helelele");
-              if (snapshot.hasData && snapshot.data!.length >= 2) {
+              if (snapshot.hasData) {
                 final List<dynamic> updatedData = snapshot.data!;
                 // print(updatedData);
                 // print(globals.times);

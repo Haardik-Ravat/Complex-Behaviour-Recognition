@@ -147,7 +147,7 @@ class _MyAppState extends State<MyApp> {
   void toggleBackgroundMessaging() {
     if (timer == null) {
       timer = Timer.periodic(
-          const Duration(milliseconds: 10), (_) => sendMessage());
+          const Duration(milliseconds: 100), (_) => sendMessage());
     } else {
       timer?.cancel();
       timer = null;

@@ -8,6 +8,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:esense_flutter/esense.dart';
 import 'package:flame/components.dart';
 import 'package:wear_os/esense/device.dart';
+import 'package:wear_os/esense_graph.dart';
 import 'package:wear_os/globals/connection.dart' as g;
 import 'package:ditredi/ditredi.dart';
 import 'package:wear_os/math/remap.dart';
@@ -93,7 +94,7 @@ class CalibrationScreenState extends State<CalibrationScreen> {
     await file.writeAsString(csvString);
 
     const snackBar = SnackBar(
-      content: Text('CSV file saved in external storage'),
+      content: Text('CSV file saved in downloads as dataesense.csv'),
     );
 
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -149,6 +150,7 @@ class CalibrationScreenState extends State<CalibrationScreen> {
     return buffer;
   }
 
+  List liss = [];
   List<Line3D> _generateCoordinateAxes() {
     return <Line3D>[
       Line3D(Vector3.zero(), Vector3(0.5, 0, 0), width: 2, color: Colors.red),
@@ -195,7 +197,7 @@ class CalibrationScreenState extends State<CalibrationScreen> {
       final accelScale = g.device.deviceConfig?.accRange?.sensitivityFactor;
       if (gyroScale == null || accelScale == null) return;
 
-      List liss = [
+      liss = [
         DateTime.now().millisecondsSinceEpoch,
         event.accel?[0],
         event.accel?[1],
@@ -207,7 +209,8 @@ class CalibrationScreenState extends State<CalibrationScreen> {
       List l = liss + globals.activity;
 
       globals.datalistesense.add(l);
-
+// globals.datalist.add(l);
+      globals.EupdateDatalist(l);
       // print(event.accel);
       // print(event.gyro);
 
@@ -280,50 +283,49 @@ class CalibrationScreenState extends State<CalibrationScreen> {
                     Expanded(
                       child: ListView(
                         children: <Widget>[
-                          const ListTile(
-                            title: Text(
-                              'Calibration State',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          ListTile(
-                            leading: _calibrateLeft != null ? YesIcon : NoIcon,
-                            title: const Text('Calibrated Left'),
-                          ),
-                          ListTile(
-                            leading: _calibrateRight != null ? YesIcon : NoIcon,
-                            title: const Text('Calibrated Right'),
-                          ),
+                          // const ListTile(
+                          //   title: Text(
+                          //     'Calibration State',
+                          //     style: TextStyle(fontWeight: FontWeight.bold),
+                          //   ),
+                          // ),
+                          // ListTile(
+                          //   leading: _calibrateLeft != null ? YesIcon : NoIcon,
+                          //   title: const Text('Calibrated Left'),
+                          // ),
+                          // ListTile(
+                          //   leading: _calibrateRight != null ? YesIcon : NoIcon,
+                          //   title: const Text('Calibrated Right'),
+                          // ),
                         ],
                       ),
                     ),
                     Text(
-                      'To calibrate, first tilt your head to the left and click "Calibrate Left".',
-                      style: TextStyle(color: Colors.grey.shade700),
+                      'To generate the csv click on the button below',
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      'Then, tilt your head to the right, and click "Calibrate Right".',
+                      liss.toString(),
                       style: TextStyle(color: Colors.grey.shade700),
                     ),
                     const SizedBox(height: 30),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: ElevatedButton(
-                            onPressed: _onPressCalibrateLeft(),
-                            child: const Text('Calibrate Left'),
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: ElevatedButton(
-                            onPressed: _onPressCalibrateRight(),
-                            child: const Text('Calibrate Right'),
-                          ),
-                        ),
-                      ],
-                    ),
+                    // Row(
+                    //   children: [
+                    //     Expanded(
+                    //       child: ElevatedButton(
+                    //         onPressed: _onPressCalibrateLeft(),
+                    //         child: const Text('Calibrate Left'),
+                    //       ),
+                    //     ),
+                    //     const SizedBox(width: 10),
+                    //     Expanded(
+                    //       child: ElevatedButton(
+                    //         onPressed: _onPressCalibrateRight(),
+                    //         child: const Text('Calibrate Right'),
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
                     SizedBox(
                       height: 20,
                     ),
@@ -332,6 +334,13 @@ class CalibrationScreenState extends State<CalibrationScreen> {
                         onPressed: _generateCsvFile,
                         child: const Text('Generate CSV'),
                       ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => EGraphs()));
+                      },
+                      child: const Text('Graphs'),
                     ),
                   ],
                 ),

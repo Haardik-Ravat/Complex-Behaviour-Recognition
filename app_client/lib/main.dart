@@ -149,7 +149,7 @@ class _MyAppState extends State<MyApp> {
     await file.writeAsString(csvString);
 
     const snackBar = SnackBar(
-      content: Text('CSV file saved in external storage'),
+      content: Text('CSV file saved in downloads as data.csv'),
     );
 
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
