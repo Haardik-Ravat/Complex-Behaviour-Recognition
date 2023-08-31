@@ -6,6 +6,7 @@ import 'package:wear_os/pongsense.dart';
 import 'package:wear_os/prediction.dart';
 import 'package:wear_os/recog.dart';
 import 'package:wear_os/tabcontrol.dart';
+import 'package:wear_os/watch_pred.dart';
 import 'globals.dart' as gs;
 
 class HomeScreen extends StatefulWidget {
@@ -35,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     text: 'Esense',
                   ),
                   Tab(
-                    text: 'Combined',
+                    text: 'Prediction',
                   ),
                 ],
               ),
@@ -45,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Recog(),
                 MyApp(),
                 TabControl(),
-                ActivityRecog()
+                Watch_Pred()
               ],
             )));
   }
