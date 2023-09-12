@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:io';
-
+import 'package:tflite_flutter/tflite_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:is_wear/is_wear.dart';
 import 'package:sensors/sensors.dart';
